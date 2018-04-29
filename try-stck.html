@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!--
+		Code is borrowed and modified from WebREPL by Torbjørn Marø
+		Huge thanks to him!
+		https://github.com/tormaroe/webrepl
+		http://programmeringsbloggen.no/2013/02/22/webrepl-en-javascript-basert-kommandolinje/
+	-->
+	<title>Try STCK</title>
+
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+	<link rel="stylesheet" href="stckjs/webrepl.css" type="text/css" />
+
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="https://cdn.polyfill.io/v2/polyfill.js?features=es6,fetch"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mousetrap/1.6.1/mousetrap.min.js"></script>
+    <script type="text/javascript" src="stckjs/stck.js"></script>
+	<script type="text/javascript" src="stckjs/webrepl.js"></script>
+</head>
+<body>
+	<div id="container" style="margin-left:20px;"></div>
+
+	<script type="text/javascript">
+	$(document).ready(function () {
+		var context = Stck.emptyContext;	
+
+		$.get('https://raw.githubusercontent.com/teodoran/stck/master/Stck/stdlib.md')
+			.done(function (stdlib) {
+				context = Stck.eval('```' + stdlib + '```', context[0], context[1]);
+			})
+			.fail(function (err) {
+				console.log('Loading stdlib failed' + err);
+			});
+
+		var sprint = function (context) {
+			var stack = '[' + Stck.stringify(context) + ']';
+			
+			if (stack.indexOf('Exception:') !== -1) {
+				return '<dt style="color:red;">' + stack + '</dt>';
+			}
+
+			return '<dt style="color:yellow;">' + stack + '</dt>';
+		};
+
+		var hprint = function (heap) {
+			var heap = Stck.hprint(context[0], context[1]);
+
+			var recur = function (heap) {
+				if (!heap.head) {
+					return '';
+				}
+
+				var word = heap.head.head,
+					definition = heap.head.tail.head,
+					element = '<dt style="color:yellow;"><span style="color:cyan;">' + word + ' -> </span>[' + definition + ']</dt>';
+				
+				return element + recur(heap.tail);
+			}
+
+			return recur(heap);
+		};
+
+		var terminal = webrepl.make({ 
+			container: $('#container'),
+			prompt: '$&gt; ',
+			state: { 
+				memory: {} 
+			},
+			welcome: 'Welcome to <strong>STCK</strong> 2.0, a stack-based programming language in the browser',
+			commandHandler: function (input, state) {
+				if (input === 'help') {
+					window.open('https://github.com/teodoran/stck/blob/master/README.md#using-the-languague','_blank');
+					return ''
+				}
+				if (input === 'hprint') {
+					return hprint(context);
+				}
+				if (input === 'sprint') {
+					return sprint(context);
+				}
+				
+				context = Stck.eval(input, context[0], context[1]);
+				
+				return sprint(context);
+			}
+		});
+	});
+	</script>
+</body>
+</html>
