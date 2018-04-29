@@ -33,18 +33,20 @@
 				console.log('Loading stdlib failed' + err);
 			});
 
+		var church = false;
+
 		var sprint = function (context) {
-			var stack = '[' + Stck.stringify(context) + ']';
+			var stack = church ? Stck.stringifyc(context) : Stck.stringify(context);
 			
 			if (stack.indexOf('Exception:') !== -1) {
-				return '<dt style="color:red;">' + stack + '</dt>';
+				return '<dt style="color:red;">[' + stack + ']</dt>';
 			}
 
-			return '<dt style="color:yellow;">' + stack + '</dt>';
+			return '<dt style="color:yellow;">[' + stack + ']</dt>';
 		};
 
 		var hprint = function (heap) {
-			var heap = Stck.hprint(context[0], context[1]);
+			var heap = church ? Stck.hprintc(context[0], context[1]) : Stck.hprint(context[0], context[1]);
 
 			var recur = function (heap) {
 				if (!heap.head) {
@@ -79,7 +81,21 @@
 				if (input === 'sprint') {
 					return sprint(context);
 				}
-				
+				if (input === 'church') {
+					church = church ? false : true;
+					return sprint(context);
+				}
+				if (input === 'unchurch') {
+					church = false;
+					return sprint(context);
+				}
+				if (input === 'quit') {
+					setTimeout(function () {
+						window.location.reload(false);	
+					}, 1000)
+					return '<dt style="color:cyan;">Bye!</dt>';
+				}
+
 				context = Stck.eval(input, context[0], context[1]);
 				
 				return sprint(context);
