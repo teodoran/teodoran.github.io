@@ -96,7 +96,13 @@
 					return '<dt style="color:cyan;">Bye!</dt>';
 				}
 
-				context = Stck.eval(input, context[0], context[1]);
+				try {
+					context = Stck.eval(input, context[0], context[1]);
+				}
+				catch (error) {
+					console.log(error);
+					return '<dt style="color:red;">[Exception: HaltingError]</dt>';
+				}
 				
 				return sprint(context);
 			}
