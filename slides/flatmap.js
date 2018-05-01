@@ -74,7 +74,7 @@ Programs can be concatenated
 Programs can be factored
 ------------------------
 
-    A i j k ≡ A B
+    A i j k &#8801; A B
 
     Where B = i j k
 
@@ -83,19 +83,14 @@ Programs can be factored
 Evaluation is based on "simplification"
 ---------------------------------------
 
-1) 1 1 + simplifies to 2
-2 3 + 1 1 + *  =>  2 3 + 2 *    
-
-2) 2 3 + simplifies to 5
-2 3 + 2 *      =>  5 2 *        
-
-3) 5 2 * simplifies to 10
-5 2 *          =>  10           
-
-4) Done, no further simplification possible
+2 3 + 1 1 + *  =>  2 3 + 2 * // 1 1 + => 2
+2 3 + 2 *      =>  5 2 *     // 2 3 + => 5
+5 2 *          =>  10        // 5 2 * => 10
 10
 
-=> is read as simplifies to
+Done! no further simplification possible
+
+(=> is read as simplifies to)
 
 </pre>`,
 `<pre style="color:yellow;">
@@ -126,7 +121,7 @@ Basic operators
 ---------------
 
 * Symbols: a b c hello
-* Reordering symbols: .swap dup rot
+* Reordering symbols: . swap dup rot
 
 </pre>`,
 `<pre style="color:yellow;">
@@ -221,10 +216,10 @@ And
 
 |   x   |   y   |            y x x app           |
 |-------|-------|--------------------------------|
-| true  | true  | true true true app    => true  |
-| false | false | false false false app => false |
 | true  | false | false true true app   => false |
 | false | true  | true false false app  => false |
+| false | false | false false false app => false |
+| true  | true  | true true true app    => true  |
 
 Making and:
 
