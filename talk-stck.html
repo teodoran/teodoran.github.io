@@ -31,12 +31,24 @@
                 </div>
             </td>
         </tr>
-    </table>
+	</table>
+	<div style="position: fixed; bottom: 0; right: 2px;color: cyan;">@_teodoran</div>
+	<div id="time" style="position: fixed; bottom: 0; left: 2px;color: cyan;"></div>
 
 	<script type="text/javascript">
 	$(document).ready(function () {
-        var slidesContainer = $('#slides');
-        var slides = flatmap;
+		var updateTime = function () {
+			var dt = new Date(),
+				hours = dt.getHours() > 9 ? dt.getHours() : '0' + dt.getHours(),
+				minutes = dt.getMinutes() > 9 ? dt.getMinutes() : '0' + dt.getMinutes();
+
+			$('#time').text(hours + ':' + minutes);
+		};
+		updateTime();
+		setInterval(updateTime, 1000);
+
+		var slidesContainer = $('#slides'),
+			slides = flatmap;
 
         if (window.location.hash) {
             var hash = window.location.hash.toLowerCase();
@@ -135,7 +147,13 @@
                     return showSlide(state.slide, slides, state.church);
                 }
 
-				context = Stck.eval(input, context[0], context[1]);
+				try {
+					context = Stck.eval(input, context[0], context[1]);
+				}
+				catch (error) {
+					console.log(error);
+					return '<dt style="color:red;">[Exception: HaltingError]</dt>';
+				}
 				
 				return sprint(context, state.church);
 			}

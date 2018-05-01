@@ -1,79 +1,106 @@
 // http://www.messletters.com/en/big-text/ style "small" og "standard"
 var flatmap = [
-    `<pre style="color:yellow;">
-TODO: Flatmap slides =  
+`<pre style="color:yellow;">
 
-     _       ____                   ____  
-    / \\     / ___|   ____    ____  / ___| 
-   / _ \\   | |      / _  |  / _  | \\___ \\ 
-  / ___ \\  | |___  | (_| | | (_| |  ___) |
- /_/   \\_\\  \\____|  \\__,_|  \\__,_| |____/ 
 
-  (Arbitrary Computation as a Service)
+
+            Church Encoding
+                  in 
+    Concatenative Programming Languages
+
+
+             (@_teodoran)
+
+
+</pre>`,
+`<pre style="color:yellow;">
+Agenda
+------
+
+* Concatenative programming
+  - What is a concatenative
+    programming language?
+  - STCK: A stack-based
+    concatenative programming language
+* Let's encode booleans and numbers in STCK
+  - Part 1: Booleans
+  - Part 2: Numbers
+
+</pre>`,
+`<pre style="color:yellow;">
+
+
+
+What is a concatenative programming language?
+
 
 
 </pre>`,
-    `<pre style="color:yellow;">
-+----------------------------------------+
-|                                        |
-|   Hva kunne han ha snakket om?         |
-|   ----------------------------         |
-|                                        |
-|   * Enteprise PowerShell scriptdeling  |
-|   * Enteprise kunnskapsdeling          |
-|     i stort prosjekt                   |
-|                                        |
-|  Klager rettes til programkomiteen :-) |
-|                                        |
-+----------------------------------------+
-</pre>`,
-    `<pre style="color:yellow;">
-+----------------------------------------+
-|                                        |
-|   Hva skal han egentlig snakke om?     |
-|   --------------------------------     |
-|                                        |
-|   * Litt om stack-baserte spraak       |
-|   * Litt om STCK                       |
-|   * STCK + REST? Hvorfor det?          |
-|                                        |
-|                                        |
-|                                        |
-+----------------------------------------+
-</pre>`,
-    `<pre style="color:yellow;">
-  ___   _                 _   
- / __| | |_   ____   __  | |__
- \\__ \\ |  _| / _  | / _| | / /
- |___/  \\__| \\__,_| \\__| |_\\_\\
+`<pre style="color:yellow;">
+Syntax is based on composition
+------------------------------
 
- ~~~~~~~~~~~ Baserte ~~~~~~~~~~~
-  ___                 (o)   _   
- / __|  _ __   _ _   ____  | |__
- \\__ \\ | '_ \\ | '_| / _  | | / /
- |___/ | .__/ |_|   \\__,_| |_\\_\\
-       |_|                      
+| Function exp | Concatenative exp |
+|--------------|-------------------|
+|     f(x)     |         f         |
+|    f'(x, y)  |         f'        |
+|   g(f(x))    |         f g       |
+
+Table 1: Functions
+
+| Function exp | Concatenative exp |
+|--------------|-------------------|
+|     f(3)     |       3 f         |
+|    f'(3, 5)  |     5 3 f'        |
+|   g(f(3))    |       3 f g       |
+
+Table 2: Application and Concatenation
 
 </pre>`,
-    // `<img style="height:15em;" src="images/moore.jpg">`,
-    // `<img style="height:15em;" src="images/setun.jpg">`,
-    `<pre style="color:yellow;">
-+----------------------------------------+
-|                                        |
-|   Stack-baserte programmeringsspraak   |
-|   ---------------------------------    |
-|                                        |
-|   * Alt er postfiks                    |
-|   * Ingen skikkelige variabler         |
-|   * Hvordan funker det i praksis?      |
-|                                        |
-|                                        |
-|                                        |
-+----------------------------------------+
-</pre>`,
-    `<pre style="color:yellow;">
+`<pre style="color:yellow;">
+Programs can be concatenated
+----------------------------
 
-Et stack-basert programmeringsspraak  
+    A is some program
+    B is some program
+    A B is some program
+
+    A(x) is some funk
+    B(x) is some funk
+    A(B(x)) is some funk
+
+</pre>`,
+`<pre style="color:yellow;">
+Programs can be factored
+------------------------
+
+    A i j k ≡ A B
+
+    Where B = i j k
+
+</pre>`,
+`<pre style="color:yellow;">
+Evaluation is based on "simplification"
+---------------------------------------
+
+1) 1 1 + simplifies to 2
+2 3 + 1 1 + *  =>  2 3 + 2 *    
+
+2) 2 3 + simplifies to 5
+2 3 + 2 *      =>  5 2 *        
+
+3) 5 2 * simplifies to 10
+5 2 *          =>  10           
+
+4) Done, no further simplification possible
+10
+
+=> is read as simplifies to
+
+</pre>`,
+`<pre style="color:yellow;">
+  A stack-based concatenative
+      programming language
 
   ____    _____    ____   _  __
  / ___|  |_   _|  / ___| | |/ /
@@ -85,209 +112,255 @@ Et stack-basert programmeringsspraak
 
 
 </pre>`,
-    // Demo 1 - Hvoran funker stack-baserte spraak
-    // Verdier paa stack 2 3, bare int32 er støttet
-    // Matteoperasjoner +
-    // Stack operasjoner . dup rot
-    // Boolske verdier 0 og 1
-    // Boolske operasjoner not =
-    // Conditionals 0 ? 42 : 1337; 1 ? 42 : 1337;
-    // Subrutiner # add-five 5 +
-    // hprint
-    `<pre style="color:yellow;">
-+----------------------------------------+
-|                                        |
-|   Project Euler problem #2             |
-|   ------------------------             |
-|                                        |
-|   * Summer alle Fibonacci-tall         |
-|   * Under 4000000                      |
-|                                        |
-|                                        |
-|                                        |
-|                                        |
-+----------------------------------------+
-</pre>`,
-    `<pre style="color:yellow;">
-# next-fib
-	2dup +
-!
-</pre>`,
-    `<pre style="color:yellow;">
-# is-even
-	dup 2 % 0 =
-!
+`<pre style="color:yellow;">
+STCK is stack-based
+-------------------
 
-# next-is-zero
-	dup 0 =
-!
-</pre>`,
-    `<pre style="color:yellow;">
-# fib-under-4m
-	next-fib
-	dup 4000000 > ?
-		fib-under-4m
-	: . ;
-!
-</pre>`,
-    `<pre style="color:yellow;">
-# sum-if-even
-	swap is-even ?
-		+
-	: . ;
-	swap next-is-zero ?
-		.
-    : swap sum-if-even ;
-!
-</pre>`,
-    `<pre style="color:yellow;">
-0 1 2 fib-under-4m sum-if-even !
-</pre>`,
-    `<pre style="color:yellow;">
-+----------------------------------------+
-|                                        |
-|   Esoterisk, ja gjett om! men...       |
-|   ------------------------------       |
-|                                        |
-|   * Lett aa embedde => Bra for DSL     |
-|   * Ingen variabler => Ingen problemer |
-|   * Begrensninger kan være en styrke!  |
-|                                        |
-|                                        |
-|                                        |
-+----------------------------------------+
-</pre>`,
-    `<pre style="color:yellow;">
-names.Where(s => s.Length == 5)
-     .OrderBy(s => s)
-     .Select(s => s.ToUpper())
-</pre>`,
-    `<pre style="color:yellow;">
-512 |> square |> toStr |> rev
-</pre>`,
-    `<pre style="color:yellow;">
-ls | grep ".md" | rev
-</pre>`,
+* A stack keeps current execution state
+* Simplification is eager from left to right
+* Quite strictly concatenative
 
-    `<pre style="color:yellow;">
-    ___   _____    ___   _  __
-   / __| |_   _|  / __| | |/ /
-   \\__ \\   | |   | (__  | ' < 
-   |___/   |_|    \\___| |_|\\_\\
-                            
- ~~~~~~~~~~~~ Pluss ~~~~~~~~~~~~
-     ___   ___   ___   _____ 
-    | _ \\ | __| / __| |_   _|
-    |   / | _|  \\__ \\   | |  
-    |_|_\\ |___| |___/   |_|  
+</pre>`,
+`<pre style="color:yellow;">
+Basic operators
+---------------
+
+* Symbols: a b c hello
+* Reordering symbols: .swap dup rot
+
+</pre>`,
+`<pre style="color:yellow;">
+Elstad's conjecture
+-------------------
+
+> Any stack-based concatenative programming language
+  need to access at most the topmost three elements
+  of the stack to be Turing complete.
+
+</pre>`,
+`<pre style="color:yellow;">
+Quotations
+----------
+
+* Quotations: []
+* Application: app
+
+</pre>`,
+`<pre style="color:yellow;">
+Quotation operations
+--------------------
+
+[a b c] |       =>  [b c] [a]    // chop
+[a b] [c d] ||  =>  [a b c d]    // concat
+
+</pre>`,
+`<pre style="color:yellow;">
+
+
+
+Church encoding booleans
+
 
 
 </pre>`,
-    `<pre style="color:yellow;">
-+----------------------------------------+
-|                                        |
-|   Hvor passer REST inn? #1             |
-|   ------------------------             |
-|                                        |
-|   * GET /Person/3                      |
-|   * DELETE /Sak/19                     |
-|                                        |
-|                                        |
-|   (*host* JSON over *host* HTTP)       |
-|                                        |
-+----------------------------------------+
-</pre>`,
-    `<pre style="color:yellow;">
-+----------------------------------------+
-|                                        |
-|   Hvor passer REST inn? #2             |
-|   ------------------------             |
-|                                        |
-|   * Representational state transfer    |
-|                      --------------    |
-|                                        |
-|   /Oppgave/1 -- Link1 --> /Trinn/1     |
-|             \\- Link2 --> /Trinn/2     |
-|                                        |
-+----------------------------------------+
-</pre>`,
-    `<pre style="color:yellow;">
-+----------------------------------------+
-|                                        |
-|   Hvor passer REST inn? #3             |
-|   ------------------------             |
-|                                        |
-|  Tilstand og Operasjon = Ny Tilstand   |
-|                                        |
-|            [1; 1] og + = [2]           |
-|                                        |
-|                                        |
-|                                        |
-+----------------------------------------+
-</pre>`,
-    `<pre style="color:yellow;">rest-stck</pre>`,
-    // Vis 1 1 + i rest-stck
-    // Vis 1 1 + og define lol i hyperstck
-    `<pre style="color:yellow;">
-+----------------------------------------+
-|                                        |
-|   Esoterisk, ja gjett om! men...       |
-|   ------------------------------       |
-|                                        |
-|   State transfer er:                   |
-|   1) Utrolig uttrykksfullt             |
-|   2) Veldig fleksibelt                 |
-|   3) Noe noe tilstandsmaskin           |
-|                                        |
-|                                        |
-+----------------------------------------+
-</pre>`,
-    // `<img style="height:15em;" src="images/power.gif">`,
-    `<pre style="color:yellow;">
+`<pre style="color:yellow;">
+Church encoded booleans
+-----------------------
 
- 
-
-  _   _                               (o)   ___ 
- | | | | __   __   ____     _ __     ____  |__ \\
- | |_| | \\ \\ / /  / _  |   | '_ \\   / _  |   / /
- |  _  |  \\ V /  | (_| |   | | | | | (_| |  |_| 
- |_| |_|   \\_/    \\__,_|   |_| |_|  \\__,_|  (_) 
-
-         (Hva var poenget med dette)
-
+    true(a, b) = a
+    false(a, b) = b
 
 </pre>`,
-    `<pre style="color:yellow;">
-+----------------------------------------+
-|                                        |
-|   Begrensede spraak har fordeler       |
-|   -----------------------------        |
-|                                        |
-|   * Færre ting som kan brukes feil     |
-|   * Lett og embedde, DSL?              |
-|                                        |
-|                                        |
-|                                        |
-|                                        |
-+----------------------------------------+
+`<pre style="color:yellow;">
+Booleans in a concatenative language
+------------------------------------
+
+| Function exp | Concatenative exp |
+|--------------|-------------------|
+|  true(x, y)  |      true         |
+| false(x, y)  |      false        |
+|  true(a, b)  |  a b true app     |
+| false(a, b)  |  a b false app    |
+
+Making true:
+
+    a b .       => a
+    a b [.] app => a
+
+Making false:
+
+    a b swap .       => b
+    a b [swap .] app => b
+
 </pre>`,
-    `<pre style="color:yellow;">
-+----------------------------------------+
-|                                        |
-|   REST kan være ekstremt fleksibelt    |
-|   ---------------------------------    |
-|                                        |
-|   * Tilstandsmaskin                    |
-|   * Vilkaarlig komputasjon             |
-|                                        |
-|                                        |
-|                                        |
-|                                        |
-+----------------------------------------+
+`<pre style="color:yellow;">
+Conditional statements
+----------------------
+
+if (true) { a } else { b }  =>  a
+true [a] [b] ?              =>  a
+
+Making if-else:
+
+    true [a] [b] rot  =>  [a] [b] true
+    [a] [b] true app  =>  [a]
+    [a] app           =>  a
+
+This gives us the following:
+
+    true [a] [b] rot app app  =>  a
+
+rot app app can be factored into ?
+
+    [rot app app] ? #
+
 </pre>`,
-    `<pre style="color:yellow;">
+`<pre style="color:yellow;">
+And
+---
+
+|   x   |   y   |            y x x app           |
+|-------|-------|--------------------------------|
+| true  | true  | true true true app    => true  |
+| false | false | false false false app => false |
+| true  | false | false true true app   => false |
+| false | true  | true false false app  => false |
+
+Making and:
+
+    x y swap  => y x
+    y x dup   => y x x
+    y x x app => y x x app
+
+swap dup app can be factored into and:
+
+    [swap dup app] and #
+
+</pre>`,
+`<pre style="color:yellow;">
+Not
+---
+
+|   x   | x not |       false true x app       |
+|-------|-------|------------------------------|
+| true  | false | false true true app => false |
+| false | true  | false true false app => true |
+
+Making not:
+
+    true false true rot => false true true
+    false true true app => false
+
+false true rot app can be factored into not:
+
+    [false true rot app] not #
+
+Now we have everything!
+</pre>`,
+`<pre style="color:yellow;">
+
+
+
+Church encoding numbers
+
+
+
+</pre>`,
+`<pre style="color:yellow;">
+Church encoded numbers
+----------------------
+
+0(f(x), a) =     a
+1(f(x), a) =   f(a)
+2(f(x), a) = f(f(a))
+
+</pre>`,
+`<pre style="color:yellow;">
+How to represent numbers in a concatenative language?
+-----------------------------------------------------
+
+| Function exp | result  | Concatenative exp | result |
+|--------------|---------|-------------------|--------|
+|  0(f(x), a)  |     a   |    a [f] 0 app    | a      |
+|  1(f(x), a)  |   f(a)  |    a [f] 1 app    | a f    |
+|  2(f(x), a)  | f(f(a)) |    a [f] 2 app    | a f f  |
+
+A naive solution:
+
+    a [f] [.] app      =>  a        // 0
+    a [f] [. f] app    =>  a f      // 1
+    a [f] [. f f] app  =>  a f f    // 2
+
+</pre>`,
+`<pre style="color:yellow;">
+Trying to make 1 with pick
+--------------------------
+
+Making pick:
+
+    a [f] [.] swap      =>  a [.] [f]
+    a [.] [f] dup       =>  a [.] [f] [f]
+    a [.] [f] [f] rot   =>  a [f] [.] [f]
+    a [f] [.] [f] swap  =>  a [f] [f] [.]
+    a [f] [f] [.] ||    =>  a [f] [f .]
+    a [f] [f .] app     =>  a f
+    
+swap dup rot swap || can be factored into pick:
+
+    [swap dup rot swap ||] pick #
+
+Naive numbers with pick:
+
+a [f] [.] app            =>  a        // 0
+a [f] [.] pick app       =>  a f      // 1
+a [f] [.] pick pick app  =>  a f f    // 2
+
+</pre>`,
+`<pre style="color:yellow;">
+Making numbers a single element on the stack
+--------------------------------------------
+
+    2 3 swap => 3 2
+
+Option A:
+
+    a [f] [[.] pick pick] app => ?
+
+Option B:
+
+    a [f] [[.] pick pick app] app => ?
+
+
+Numbers as single elements:
+
+    a [f] [[.] app] app            =>  a
+    a [f] [[.] pick app] app       =>  a f
+    a [f] [[.] pick pick app] app  =>  a f f
+
+</pre>`,
+`<pre style="color:yellow;">
+The successor function
+----------------------
+
+    [[[.] app]] 0 #
+    [0 succ] 1 #
+    [1 succ] 2 #
+
+Making succ:
+
+    [[.] app] |               =>  [app] [[.]]
+    [app] [[.]] [pick] rot    =>  [[.]] [pick] [app]
+    [[.]] [pick] [app] || ||  =>  [[.] pick app]
+
+| [pick] rot || || can be factored into succ:
+
+    [| [pick] rot || ||] succ #
+
+Bonus?
+</pre>`,
+`<pre style="color:yellow;">
          ____  ____  ____  ____ 
-        ||t ||||a ||||k ||||k ||
+      s ||t ||||a ||||k ||||k ||
         ||__||||__||||__||||__||
         |/__\\||/__\\||/__\\||/__\\|
             ____  ____  ____ 
