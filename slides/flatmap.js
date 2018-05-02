@@ -9,7 +9,7 @@ var flatmap = [
     Concatenative Programming Languages
 
 
-             (@_teodoran)
+
 
 
 </pre>`,
@@ -18,13 +18,11 @@ Agenda
 ------
 
 * Concatenative programming
-  - What is a concatenative
-    programming language?
-  - STCK: A stack-based
-    concatenative programming language
-* Let's encode booleans and numbers in STCK
-  - Part 1: Booleans
-  - Part 2: Numbers
+  - Concat, What?
+  - STCK
+* Let's encode!
+  - Booleans
+  - Numbers
 
 </pre>`,
 `<pre style="color:yellow;">
@@ -48,6 +46,7 @@ Syntax is based on composition
 
 Table 1: Functions
 
+
 | Function exp | Concatenative exp |
 |--------------|-------------------|
 |     f(3)     |       3 f         |
@@ -55,29 +54,6 @@ Table 1: Functions
 |   g(f(3))    |       3 f g       |
 
 Table 2: Application and Concatenation
-
-</pre>`,
-`<pre style="color:yellow;">
-Programs can be concatenated
-----------------------------
-
-    A is some program
-    B is some program
-    A B is some program
-
-    A(x) is some funk
-    B(x) is some funk
-    A(B(x)) is some funk
-
-</pre>`,
-`<pre style="color:yellow;">
-Programs can be factored
-------------------------
-
-    A i j k &#8801; A B
-
-    Where B = i j k
-
 </pre>`,
 `<pre style="color:yellow;">
 Evaluation is based on "simplification"
@@ -139,6 +115,7 @@ Quotations
 
 * Quotations: []
 * Application: app
+* Conditionals and Definitions
 
 </pre>`,
 `<pre style="color:yellow;">
@@ -189,25 +166,22 @@ Making false:
 
 </pre>`,
 `<pre style="color:yellow;">
-Conditional statements
-----------------------
+Not
+---
 
-if (true) { a } else { b }  =>  a
-true [a] [b] ?              =>  a
+|   x   | x not |       false true x app       |
+|-------|-------|------------------------------|
+| true  | false | false true true app => false |
+| false | true  | false true false app => true |
 
-Making if-else:
+Making not:
 
-    true [a] [b] rot  =>  [a] [b] true
-    [a] [b] true app  =>  [a]
-    [a] app           =>  a
+    true false true rot => false true true
+    false true true app => false
 
-This gives us the following:
+false true rot app can be factored into not:
 
-    true [a] [b] rot app app  =>  a
-
-rot app app can be factored into ?
-
-    [rot app app] ? #
+    [false true rot app] not #
 
 </pre>`,
 `<pre style="color:yellow;">
@@ -233,24 +207,26 @@ swap dup app can be factored into and:
 
 </pre>`,
 `<pre style="color:yellow;">
-Not
----
+Conditional statements
+----------------------
 
-|   x   | x not |       false true x app       |
-|-------|-------|------------------------------|
-| true  | false | false true true app => false |
-| false | true  | false true false app => true |
+if (true) { a } else { b }  =>  a
+true [a] [b] ?              =>  a
 
-Making not:
+Making if-else:
 
-    true false true rot => false true true
-    false true true app => false
+    true [a] [b] rot  =>  [a] [b] true
+    [a] [b] true app  =>  [a]
+    [a] app           =>  a
 
-false true rot app can be factored into not:
+This gives us the following:
 
-    [false true rot app] not #
+    true [a] [b] rot app app  =>  a
 
-Now we have everything!
+rot app app can be factored into ?
+
+    [rot app app] ? #
+
 </pre>`,
 `<pre style="color:yellow;">
 
