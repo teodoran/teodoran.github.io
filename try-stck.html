@@ -36,7 +36,7 @@
 		var church = false;
 
 		var sprint = function (context) {
-			var stack = church ? Stck.stringifyc(context) : Stck.stringify(context);
+			var stack = church ? Stck.stringifyc(context[0], context[1]) : Stck.stringify(context[0], context[1]);
 			
 			if (stack.indexOf('Exception:') !== -1) {
 				return '<dt style="color:red;">[' + stack + ']</dt>';
@@ -55,7 +55,7 @@
 
 				var word = heap.head.head,
 					definition = heap.head.tail.head,
-					element = '<dt style="color:yellow;"><span style="color:cyan;">' + word + ' -> </span>[' + definition + ']</dt>';
+					element = '<dt style="color:yellow;"><span style="color:cyan;">' + word + ' -> </span>' + definition + '</dt>';
 				
 				return element + recur(heap.tail);
 			}
