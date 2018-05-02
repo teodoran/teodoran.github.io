@@ -1,6 +1,5 @@
 // http://www.messletters.com/en/big-text/ style "small" og "standard"
-var acaas = [
-    `<pre style="color:yellow;">
+var acaas = [`
 Stack-baserte programmeringsspraak + REST =  
 
      _       ____                   ____  
@@ -12,8 +11,7 @@ Stack-baserte programmeringsspraak + REST =
   (Arbitrary Computation as a Service)
 
 
-</pre>`,
-    `<pre style="color:yellow;">
+`,`
 +----------------------------------------+
 |                                        |
 |   Hva kunne han ha snakket om?         |
@@ -26,8 +24,7 @@ Stack-baserte programmeringsspraak + REST =
 |  Klager rettes til programkomiteen :-) |
 |                                        |
 +----------------------------------------+
-</pre>`,
-    `<pre style="color:yellow;">
+`,`
 +----------------------------------------+
 |                                        |
 |   Hva skal han egentlig snakke om?     |
@@ -40,8 +37,7 @@ Stack-baserte programmeringsspraak + REST =
 |                                        |
 |                                        |
 +----------------------------------------+
-</pre>`,
-    `<pre style="color:yellow;">
+`,`
   ___   _                 _   
  / __| | |_   ____   __  | |__
  \\__ \\ |  _| / _  | / _| | / /
@@ -54,10 +50,7 @@ Stack-baserte programmeringsspraak + REST =
  |___/ | .__/ |_|   \\__,_| |_\\_\\
        |_|                      
 
-</pre>`,
-    // `<img style="height:15em;" src="images/moore.jpg">`,
-    // `<img style="height:15em;" src="images/setun.jpg">`,
-    `<pre style="color:yellow;">
+`,`
 +----------------------------------------+
 |                                        |
 |   Stack-baserte programmeringsspraak   |
@@ -70,8 +63,7 @@ Stack-baserte programmeringsspraak + REST =
 |                                        |
 |                                        |
 +----------------------------------------+
-</pre>`,
-    `<pre style="color:yellow;">
+`,`
 
 Et stack-basert programmeringsspraak  
 
@@ -84,7 +76,7 @@ Et stack-basert programmeringsspraak
  (Beware of the Turing tar-pit)
 
 
-</pre>`,
+`,
     // Demo 1 - Hvoran funker stack-baserte spraak
     // Verdier paa stack 2 3, bare int32 er støttet
     // Matteoperasjoner +
@@ -93,8 +85,8 @@ Et stack-basert programmeringsspraak
     // Boolske operasjoner not =
     // Conditionals 0 ? 42 : 1337; 1 ? 42 : 1337;
     // Subrutiner # add-five 5 +
-    // hprint
-    `<pre style="color:yellow;">
+    // hprint`
+`
 +----------------------------------------+
 |                                        |
 |   Project Euler problem #2             |
@@ -107,13 +99,11 @@ Et stack-basert programmeringsspraak
 |                                        |
 |                                        |
 +----------------------------------------+
-</pre>`,
-    `<pre style="color:yellow;">
+`,`
 # next-fib
 	2dup +
 !
-</pre>`,
-    `<pre style="color:yellow;">
+`,`
 # is-even
 	dup 2 % 0 =
 !
@@ -121,16 +111,14 @@ Et stack-basert programmeringsspraak
 # next-is-zero
 	dup 0 =
 !
-</pre>`,
-    `<pre style="color:yellow;">
+`,`
 # fib-under-4m
 	next-fib
 	dup 4000000 > ?
 		fib-under-4m
 	: . ;
 !
-</pre>`,
-    `<pre style="color:yellow;">
+`,`
 # sum-if-even
 	swap is-even ?
 		+
@@ -139,11 +127,9 @@ Et stack-basert programmeringsspraak
 		.
     : swap sum-if-even ;
 !
-</pre>`,
-    `<pre style="color:yellow;">
+`,`
 0 1 2 fib-under-4m sum-if-even !
-</pre>`,
-    `<pre style="color:yellow;">
+`,`
 +----------------------------------------+
 |                                        |
 |   Esoterisk, ja gjett om! men...       |
@@ -156,20 +142,16 @@ Et stack-basert programmeringsspraak
 |                                        |
 |                                        |
 +----------------------------------------+
-</pre>`,
-    `<pre style="color:yellow;">
+`,`
 names.Where(s => s.Length == 5)
      .OrderBy(s => s)
      .Select(s => s.ToUpper())
-</pre>`,
-    `<pre style="color:yellow;">
+`,`
 512 |> square |> toStr |> rev
-</pre>`,
-    `<pre style="color:yellow;">
+`,`
 ls | grep ".md" | rev
-</pre>`,
-
-    `<pre style="color:yellow;">
+`,
+`
     ___   _____    ___   _  __
    / __| |_   _|  / __| | |/ /
    \\__ \\   | |   | (__  | ' < 
@@ -182,8 +164,7 @@ ls | grep ".md" | rev
     |_|_\\ |___| |___/   |_|  
 
 
-</pre>`,
-    `<pre style="color:yellow;">
+`,`
 +----------------------------------------+
 |                                        |
 |   Hvor passer REST inn? #1             |
@@ -196,8 +177,7 @@ ls | grep ".md" | rev
 |   (*host* JSON over *host* HTTP)       |
 |                                        |
 +----------------------------------------+
-</pre>`,
-    `<pre style="color:yellow;">
+`,`
 +----------------------------------------+
 |                                        |
 |   Hvor passer REST inn? #2             |
@@ -210,8 +190,7 @@ ls | grep ".md" | rev
 |             \\- Link2 --> /Trinn/2     |
 |                                        |
 +----------------------------------------+
-</pre>`,
-    `<pre style="color:yellow;">
+`,`
 +----------------------------------------+
 |                                        |
 |   Hvor passer REST inn? #3             |
@@ -224,11 +203,10 @@ ls | grep ".md" | rev
 |                                        |
 |                                        |
 +----------------------------------------+
-</pre>`,
-    `<pre style="color:yellow;">rest-stck</pre>`,
+`,
     // Vis 1 1 + i rest-stck
     // Vis 1 1 + og define lol i hyperstck
-    `<pre style="color:yellow;">
+`
 +----------------------------------------+
 |                                        |
 |   Esoterisk, ja gjett om! men...       |
@@ -241,9 +219,9 @@ ls | grep ".md" | rev
 |                                        |
 |                                        |
 +----------------------------------------+
-</pre>`,
+`,
     // `<img style="height:15em;" src="images/power.gif">`,
-    `<pre style="color:yellow;">
+`
 
  
 
@@ -256,8 +234,7 @@ ls | grep ".md" | rev
          (Hva var poenget med dette)
 
 
-</pre>`,
-    `<pre style="color:yellow;">
+`,`
 +----------------------------------------+
 |                                        |
 |   Begrensede spraak har fordeler       |
@@ -270,8 +247,7 @@ ls | grep ".md" | rev
 |                                        |
 |                                        |
 +----------------------------------------+
-</pre>`,
-    `<pre style="color:yellow;">
+`,`
 +----------------------------------------+
 |                                        |
 |   REST kan være ekstremt fleksibelt    |
@@ -284,8 +260,7 @@ ls | grep ".md" | rev
 |                                        |
 |                                        |
 +----------------------------------------+
-</pre>`,
-    `<pre style="color:yellow;">
+`,`
          ____  ____  ____  ____ 
         ||t ||||a ||||k ||||k ||
         ||__||||__||||__||||__||
@@ -298,4 +273,4 @@ ls | grep ".md" | rev
         ||m ||||e ||||g ||||! ||
         ||__||||__||||__||||__||
         |/__\\||/__\\||/__\\||/__\\|
-</pre>`];
+`];

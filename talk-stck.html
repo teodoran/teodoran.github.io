@@ -100,7 +100,7 @@
         
         var showSlide = function (slide, slides, church) {
             var slide = slides[Math.abs(slide % slides.length)];
-            slidesContainer.html(slide);
+            slidesContainer.html('<pre style="color:yellow;">' + slide + '</pre>');
             return sprint(context, church);
         };
 

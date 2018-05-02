@@ -1,21 +1,18 @@
 // http://www.messletters.com/en/big-text/ style "small" og "standard"
-var flatmap = [
-`<pre style="color:yellow;">
+var flatmap =
+[`
+   ___   ___   _    ___   ___   _    
+  / __| | __| (_)  / __| | _ \\ | |   
+ | (__  | _|  | | | (__  |  _/ | |__ 
+  \\___| |___| |_|  \\___| |_|   |____|
 
+           Church Encoding
+                 in 
+ Concatenative Programming Languages
 
-
-            Church Encoding
-                  in 
-    Concatenative Programming Languages
-
-
-
-
-
-</pre>`,
-`<pre style="color:yellow;">
-Agenda
-------
+`,`
+Things to talk about
+--------------------
 
 * Concatenative programming
   - Concat, What?
@@ -24,17 +21,19 @@ Agenda
   - Booleans
   - Numbers
 
-</pre>`,
-`<pre style="color:yellow;">
+`,`
+ _ _  _  _ _ _|_ _  _  _ _|_.   _ 
+(_(_)| |(_(_| | (/_| |(_| | |\\/(/_
+                                  
++-+ +-+ +-+ +-+ +-+ +-+ +-+ +-+ +-+ +-+ +-+
+|p| |r| |o| |g| |r| |a| |m| |m| |i| |n| |g|
++-+ +-+ +-+ +-+ +-+ +-+ +-+ +-+ +-+ +-+ +-+
+| _  _  _     _  _  _ 
+|(_|| |(_||_|(_|(_|(/_
+        _|       _|   
+                               What is it?
 
-
-
-What is a concatenative programming language?
-
-
-
-</pre>`,
-`<pre style="color:yellow;">
+`,`
 Syntax is based on composition
 ------------------------------
 
@@ -54,96 +53,84 @@ Table 1: Functions
 |   g(f(3))    |       3 f g       |
 
 Table 2: Application and Concatenation
-</pre>`,
-`<pre style="color:yellow;">
+
+`,`
 Evaluation is based on "simplification"
 ---------------------------------------
 
 2 3 + 1 1 + *  =>  2 3 + 2 * // 1 1 + => 2
 2 3 + 2 *      =>  5 2 *     // 2 3 + => 5
-5 2 *          =>  10        // 5 2 * => 10
+5 2 *          =>  10        // 5 2 * =>10
 10
 
 Done! no further simplification possible
 
 (=> is read as simplifies to)
 
-</pre>`,
-`<pre style="color:yellow;">
-  A stack-based concatenative
-      programming language
+`,`
+   ____    _____    ____   _  __
+  / ___|  |_   _|  / ___| | |/ /
+  \\___ \\    | |   | |     | ' / 
+   ___) |   | |   | |___  | . \\ 
+  |____/    |_|    \\____| |_|\\_\\
 
-  ____    _____    ____   _  __
- / ___|  |_   _|  / ___| | |/ /
- \\___ \\    | |   | |     | ' / 
-  ___) |   | |   | |___  | . \\ 
- |____/    |_|    \\____| |_|\\_\\
+           A stack-based           
+concatenative programming language
 
- (Beware of the Turing tar-pit)
+  (Beware of the Turing tar-pit!)
 
-
-</pre>`,
-`<pre style="color:yellow;">
-STCK is stack-based
--------------------
+`,`
+STCK is a stack-based language
+------------------------------
 
 * A stack keeps current execution state
-* Simplification is eager from left to right
+* Simplification is eager
+  - From left to right
 * Quite strictly concatenative
 
-</pre>`,
-`<pre style="color:yellow;">
-Basic operators
----------------
+`,`
+The very basic operators
+------------------------
 
 * Symbols: a b c hello
 * Reordering symbols: . swap dup rot
 
-</pre>`,
-`<pre style="color:yellow;">
-Elstad's conjecture
--------------------
-
-> Any stack-based concatenative programming language
-  need to access at most the topmost three elements
-  of the stack to be Turing complete.
-
-</pre>`,
-`<pre style="color:yellow;">
-Quotations
-----------
+`,`
+Quotations (aka Anonymous stacks)
+---------------------------------
 
 * Quotations: []
 * Application: app
 * Conditionals and Definitions
 
-</pre>`,
-`<pre style="color:yellow;">
-Quotation operations
---------------------
+`,`
+Doing stuff with Quotations
+---------------------------
 
-[a b c] |       =>  [b c] [a]    // chop
-[a b] [c d] ||  =>  [a b c d]    // concat
+[a b c] |       =>  [b c] [a] // chop
+[a b] [c d] ||  =>  [a b c d] // concat
 
-</pre>`,
-`<pre style="color:yellow;">
-
-
-
-Church encoding booleans
-
-
-
-</pre>`,
-`<pre style="color:yellow;">
+`,`
+ #####                                          
+#     #  #    #  #    #  #####    ####   #    #
+#        #    #  #    #  #    #  #    #  #    #
+#        ######  #    #  #    #  #       ######
+#        #    #  #    #  #####   #       #    #
+#     #  #    #  #    #  #   #   #    #  #    #
+ #####   #    #   ####   #    #   ####   #    #
+                            _   _               
+ ___   _ _    __   ___   __| | (_)  _ _    __ _ 
+/ -_) | ' \\  / _| / _ \\ / _\` | | | | ' \\  / _\` |
+\\___| |_||_| \\__| \\___/ \\__,_| |_| |_||_| \\__, |
+                                           |___/ 
+`,`
 Church encoded booleans
 -----------------------
 
     true(a, b) = a
     false(a, b) = b
 
-</pre>`,
-`<pre style="color:yellow;">
+`,`
 Booleans in a concatenative language
 ------------------------------------
 
@@ -164,10 +151,9 @@ Making false:
     a b swap .       => b
     a b [swap .] app => b
 
-</pre>`,
-`<pre style="color:yellow;">
-Not
----
+`,`
+NOT is a useful boolean operator
+--------------------------------
 
 |   x   | x not |       false true x app       |
 |-------|-------|------------------------------|
@@ -183,10 +169,9 @@ false true rot app can be factored into not:
 
     [false true rot app] not #
 
-</pre>`,
-`<pre style="color:yellow;">
-And
----
+`,`
+AND is also a useful boolean operator
+-------------------------------------
 
 |   x   |   y   |            y x x app           |
 |-------|-------|--------------------------------|
@@ -205,10 +190,9 @@ swap dup app can be factored into and:
 
     [swap dup app] and #
 
-</pre>`,
-`<pre style="color:yellow;">
-Conditional statements
-----------------------
+`,`
+IF/ELSE decisions, decisions
+----------------------------
 
 if (true) { a } else { b }  =>  a
 true [a] [b] ?              =>  a
@@ -227,17 +211,15 @@ rot app app can be factored into ?
 
     [rot app app] ? #
 
-</pre>`,
-`<pre style="color:yellow;">
-
-
-
-Church encoding numbers
-
-
-
-</pre>`,
-`<pre style="color:yellow;">
+`,`
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19
+ _  _                  _                     
+| \\| |  _  _   _ __   | |__   ___   _ _   ___
+| .\` | | || | | '  \\  | '_ \\ / -_) | '_| (_-<
+|_|\\_|  \\_,_| |_|_|_| |_.__/ \\___| |_|   /__/
+                                              
+20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35
+`,`
 Church encoded numbers
 ----------------------
 
@@ -245,10 +227,9 @@ Church encoded numbers
 1(f(x), a) =   f(a)
 2(f(x), a) = f(f(a))
 
-</pre>`,
-`<pre style="color:yellow;">
-How to represent numbers in a concatenative language?
------------------------------------------------------
+`,`
+How could we represent numbers in a concat-lang?
+------------------------------------------------
 
 | Function exp | result  | Concatenative exp | result |
 |--------------|---------|-------------------|--------|
@@ -256,14 +237,13 @@ How to represent numbers in a concatenative language?
 |  1(f(x), a)  |   f(a)  |    a [f] 1 app    | a f    |
 |  2(f(x), a)  | f(f(a)) |    a [f] 2 app    | a f f  |
 
-A naive solution:
+A very naive solution:
 
     a [f] [.] app      =>  a        // 0
     a [f] [. f] app    =>  a f      // 1
     a [f] [. f f] app  =>  a f f    // 2
 
-</pre>`,
-`<pre style="color:yellow;">
+`,`
 Trying to make 1 with pick
 --------------------------
 
@@ -286,8 +266,7 @@ a [f] [.] app            =>  a        // 0
 a [f] [.] pick app       =>  a f      // 1
 a [f] [.] pick pick app  =>  a f f    // 2
 
-</pre>`,
-`<pre style="color:yellow;">
+`,`
 Making numbers a single element on the stack
 --------------------------------------------
 
@@ -308,10 +287,9 @@ Numbers as single elements:
     a [f] [[.] pick app] app       =>  a f
     a [f] [[.] pick pick app] app  =>  a f f
 
-</pre>`,
-`<pre style="color:yellow;">
-The successor function
-----------------------
+`,`
+Finally! The successor function
+-------------------------------
 
     [[[.] app]] 0 #
     [0 succ] 1 #
@@ -328,18 +306,39 @@ Making succ:
     [| [pick] rot || ||] succ #
 
 Bonus?
-</pre>`,
-`<pre style="color:yellow;">
-         ____  ____  ____  ____ 
-      s ||t ||||a ||||k ||||k ||
-        ||__||||__||||__||||__||
-        |/__\\||/__\\||/__\\||/__\\|
-            ____  ____  ____ 
-           ||f ||||o ||||r ||
-           ||__||||__||||__||
-           |/__\\||/__\\||/__\\|
-         ____  ____  ____  ____ 
-        ||m ||||e ||||g ||||! ||
-        ||__||||__||||__||||__||
-        |/__\\||/__\\||/__\\||/__\\|
-</pre>`];
+`,`
+             ____  ____  ____  ____  ____  ____ 
+            ||T ||||h ||||a ||||n ||||k ||||s ||
+            ||__||||__||||__||||__||||__||||__||
+            |/__\\||/__\\||/__\\||/__\\||/__\\||/__\\|
+                      ____  ____  ____ 
+                     ||f ||||o ||||r ||
+                     ||__||||__||||__||
+                     |/__\\||/__\\||/__\\|
+ ____  ____  ____  ____  ____  ____  ____  ____  ____  ____ 
+||l ||||i ||||s ||||t ||||e ||||n ||||i ||||n ||||g ||||! ||
+||__||||__||||__||||__||||__||||__||||__||||__||||__||||__||
+|/__\\||/__\\||/__\\||/__\\||/__\\||/__\\||/__\\||/__\\||/__\\||/__\\|
+
+                                       Thanks for listening!
+
+`,`
+ ____       __                                  __
+/\\  _\`\\    /\\ \\                                /\\ \\
+\\ \\ \\/\\_\\  \\ \\ \\___     __  __   _ __    ___   \\ \\ \\___
+ \\ \\ \\/_/_  \\ \\  _ \`\\  /\\ \\/\\ \\ /\\\`'__\\ /'___\\  \\ \\  _ \`\\
+  \\ \\ \\L\\ \\  \\ \\ \\ \\ \\ \\ \\ \\_\\ \\\\ \\ \\/ /\\ \\__/   \\ \\ \\ \\ \\
+   \\ \\____/   \\ \\_\\ \\_\\ \\ \\____/ \\ \\_\\ \\ \\____\\   \\ \\_\\ \\_\\
+    \\/___/     \\/_/\\/_/  \\/___/   \\/_/  \\/____/    \\/_/\\/_/
+
+                                   __
+                                  /\\ \\     __
+   __     ___      ___     ___    \\_\\ \\   /\\_\\     ___       __
+ /'__\`\\ /' _ \`\\   /'___\\  / __\`\\  /'_\` \\  \\/\\ \\  /' _ \`\\   /'_ \`\\
+/\\  __/ /\\ \\/\\ \\ /\\ \\__/ /\\ \\L\\ \\/\\ \\L\\ \\  \\ \\ \\ /\\ \\/\\ \\ /\\ \\L\\ \\
+\\ \\____\\\\ \\_\\ \\_\\\\ \\____\\\\ \\____/\\ \\___,_\\  \\ \\_\\\\ \\_\\ \\_\\\\ \\____ \\
+ \\/____/ \\/_/\\/_/ \\/____/ \\/___/  \\/__,_ /   \\/_/ \\/_/\\/_/ \\/___L\\ \\
+                                                             /\\____/
+                                                             \\_/__/
+
+`];
