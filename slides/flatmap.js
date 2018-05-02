@@ -101,7 +101,7 @@ Quotations (aka Anonymous stacks)
 
 * Quotations: []
 * Application: app
-* Conditionals and Definitions
+* Definitions: #
 
 `,`
 Doing stuff with Quotations
