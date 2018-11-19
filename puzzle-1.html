@@ -161,6 +161,10 @@ $(document).ready(function() {
 		terminal.append("Not implemented yet\n");
 	}
 
+	function exit() {
+		location.reload();
+	}
+
 	// END COMMANDS
 
 	var title = $(".title");
@@ -184,6 +188,9 @@ $(document).ready(function() {
 		}, {
 			"name": "cd",
 			"function": cd
+		}, {
+			"name": "exit",
+			"function": exit
 		}];
 
 	var fileSystem = {
