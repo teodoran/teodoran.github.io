@@ -208,17 +208,19 @@ $(document).ready(function() {
 			terminal.append(message);
 		} else if (file === "dinner.txt") {
 			var message =
-			"My favorite dish by far!\n" +
-			"Consisting of pieces of mutton with bone, cabbage and whole black pepper,\n" +
+			"The Directors favorite dish:\n" +
+			"Pieces of mutton with bone, cabbage and whole black pepper,\n" +
 			"cooked for several hours in a casserole, traditionally served with potatoes boiled in their jackets.\n";
 
 			terminal.append(message);
 		} else if (file === "README.md" || file === "readme.md") {
 			var message =
-				"I'm tired of remembering new passwords! This time I'll just use two old words as input to an hash function.\n\n" +
-				"The first word will be the project password from my most recent git project\n" +
-				"The second word will be the name of my favorite dish\n\n" +
-				"Then I can get my password by running hash first-word second-word\n";
+				"Remembering and resetting passwords is inefficient, and is costing INITECH money!\n\n" +
+				"From now on all server passwords will be generated with two words as input to a hash function.\n\n" +
+				"The first word will be the project password from the most recent git project\n" +
+				"The second word will be the Directors favorite dish\n\n" +
+				"Now any INITECH associated worker will be able to get the server password by simply running:\n\n" +
+				"hash first-word second-word\n";
 
 			terminal.append(message);
 		} else {
@@ -450,7 +452,7 @@ $(document).ready(function() {
 	});
 
 	// Set the window title
-	title.text("admin@HAL: ~");
+	title.text("admin@INITECH: ~");
 
 	// Get the date for our fake last-login
 	var date = new Date().toString(); date = date.substr(0, date.indexOf("GMT") - 1);
