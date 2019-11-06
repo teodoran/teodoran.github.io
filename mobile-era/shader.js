@@ -1,4 +1,6 @@
 let myReq;
+const time = document.getElementById("time");
+const teodoran = document.getElementById("teodoran");
 const myTextArea = document.getElementById("code");
 const myCodeMirror = CodeMirror.fromTextArea(myTextArea, {
     mode: "x-shader/x-fragment",
@@ -16,8 +18,16 @@ const myCodeMirror = CodeMirror.fromTextArea(myTextArea, {
       "Ctrl-Q": function(cm) {
         const wrapper = cm.getWrapperElement();
         const isHidden = wrapper.style.animationName === 'fadeout';
-        wrapper.style.animationName = isHidden ? 'fadein' : 'fadeout';
-        wrapper.style.opacity = isHidden ? 0.8 : 0;
+
+        const animationName = isHidden ? 'fadein' : 'fadeout';
+        wrapper.style.animationName = animationName;
+        time.style.animationName = animationName;
+        teodoran.style.animationName = animationName;
+
+        const opacity = isHidden ? 0.8 : 0;
+        wrapper.style.opacity = opacity;
+        time.style.opacity = opacity;
+        teodoran.style.opacity = opacity;
       }
     },
 });
@@ -223,3 +233,14 @@ function loadMusic() {
 
   return texture;
 }
+
+function updateTime() {
+  const dt = new Date(),
+      hours = dt.getHours() > 9 ? dt.getHours() : '0' + dt.getHours(),
+      minutes = dt.getMinutes() > 9 ? dt.getMinutes() : '0' + dt.getMinutes();
+
+  time.innerText = hours + ':' + minutes;
+};
+
+updateTime();
+setInterval(updateTime, 1000);

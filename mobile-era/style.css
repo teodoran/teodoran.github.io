@@ -48,3 +48,20 @@ canvas {
         opacity: 0;
     }
 }
+
+#time, #teodoran {
+    position: fixed;
+    bottom: 2px;
+    color: #aeb2f8;
+    animation-duration: 1s;
+    animation-name: fadein;
+    opacity: 0.8;
+}
+
+#time {
+    left: 4px;
+}
+
+#teodoran {
+    right: 4px;
+}
