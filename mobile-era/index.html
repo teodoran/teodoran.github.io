@@ -32,10 +32,14 @@ float music(vec2 position)
 
 void main()
 {
-    vec2 st = gl_FragCoord.xy / u_resolution.xy;
-    vec2 pct = vec2(distance(st, vec2(0.5)));
-    vec3 color = vec3(st.x, st.y, abs(sin(float(u_frame) / 60.0)));
-    gl_FragColor = vec4(color, 4.0 * music(st));
+    vec2 pos = gl_FragCoord.xy / u_resolution.xy;
+
+    float red = pos.x * abs(sin(float(u_frame) / 360.0));
+    float green = pos.y * abs(cos(float(u_frame) / 380.0));
+    float blue = pow(pos.x, 2.0) + pow(pos.y, 2.0) * abs(sin(float(u_frame) / 330.0));
+    float alpha = 1.0;
+
+    gl_FragColor = vec4(red, green, blue, alpha);
 }</textarea>
     <a href="https://twitter.com/_teodoran"><div id="teodoran">@_teodoran</div></a>
     <div id="time"></div>

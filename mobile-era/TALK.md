@@ -8,6 +8,17 @@ Playing around with shaders can be a creative and satisfying way to explore visu
 
 Let’s take a quick dive into shader programming, and get familiar with the basics of fragment shaders, how to create more or less planned effects, and how to use audio to breath life into simple visualizations. Although shaders might take a lifetime to master, there’s plenty of room for casual exploration and happy accidents for those of us just starting out.
 
+Links
+-----
+### Sounds:
+* https://soundcloud.com/volcore/reminicent
+* https://soundcloud.com/volcore/arp
+* https://soundcloud.com/volcore/resumption
+
+### Talk:
+* https://teodoran.github.io/mobile-era/
+
+
 
 The Quest for Good Graphics
 ---------------------------
@@ -81,14 +92,50 @@ Sine and time
 * `u_frame` and cating with `float()`.
 * `sin` and `cos`.
 
+Want to get by:
+```
+float red = float(u_frame) / 60.0;
 ```
 
+Want to end up:
+```
+vec2 pos = gl_FragCoord.xy / u_resolution.xy;
+
+float red = pos.x * abs(sin(float(u_frame) / 60.0));
+float green = pos.y * abs(cos(float(u_frame) / 80.0));
+float blue = pow(pos.x, 2.0) + pow(pos.y, 2.0) * abs(sin(float(u_frame) / 30.0));
+float alpha = 1.0;
+gl_FragColor = vec4(red, green, blue, alpha);
 ```
 
 Making the pixels dance
 -------------
 * `u_music` and data from WebAudio.
 
+Go by:
+```
+vec2 pos = gl_FragCoord.xy / u_resolution.xy;
+
+float red = pos.x * abs(sin(float(u_frame) / 60.0));
+float green = pos.y * abs(cos(float(u_frame) / 80.0));
+float blue = pow(pos.x, 2.0) + pow(pos.y, 2.0) * abs(sin(float(u_frame) / 30.0));
+float alpha = 3.0 * music(pos);
+gl_FragColor = vec4(red, green, blue, alpha);
+```
+Then BOSS!
+
+End up here?
+```
+vec2 pos = gl_FragCoord.xy / u_resolution.xy;
+
+float red = pos.x * abs(sin(float(u_frame) / 60.0)) * music(pos);
+float green = pos.y * abs(cos(float(u_frame) / 80.0)) * music(pos.yx);
+float blue = pow(pos.x, 2.0) + pow(pos.y, 2.0) * abs(sin(float(u_frame) / 120.0));
+float alpha = 1.0;
+gl_FragColor = vec4(red, green, blue, alpha);
 ```
 
+Also a good option!
+```
+float red = pos.x * abs(sin(float(u_frame) / 60.0)) * (1.0 / music(pos));
 ```
