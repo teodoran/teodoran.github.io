@@ -16,7 +16,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.2/mode/clike/clike.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.2/addon/hint/show-hint.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.2/addon/hint/anyword-hint.min.js"></script>
-
+    <script src="slides.js"></script>
   </head>
   <body>
     <canvas id="shader"></canvas>
@@ -35,7 +35,7 @@ void main()
     vec2 st = gl_FragCoord.xy / u_resolution.xy;
     vec2 pct = vec2(distance(st, vec2(0.5)));
     vec3 color = vec3(st.x, st.y, abs(sin(float(u_frame) / 60.0)));
-    gl_FragColor = vec4(color, 2.0 * music(st));
+    gl_FragColor = vec4(color, 4.0 * music(st));
 }</textarea>
     <a href="https://twitter.com/_teodoran"><div id="teodoran">@_teodoran</div></a>
     <div id="time"></div>

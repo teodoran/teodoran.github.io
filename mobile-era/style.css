@@ -23,7 +23,7 @@ canvas {
 }
 
 .CodeMirror {
-    animation-duration: 1s;
+    animation-duration: 0.8s;
     animation-name: fadein;
     opacity: 0.8;
     height: 100%;
@@ -53,9 +53,13 @@ canvas {
     position: fixed;
     bottom: 2px;
     color: #aeb2f8;
-    animation-duration: 1s;
+    animation-duration: 0.8s;
     animation-name: fadein;
     opacity: 0.8;
+}
+
+#time.error, #teodoran.error {
+    color: #de8e30;
 }
 
 #time {

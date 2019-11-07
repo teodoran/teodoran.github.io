@@ -1,19 +1,18 @@
 let myReq;
+const quality = 2;
 const time = document.getElementById("time");
 const teodoran = document.getElementById("teodoran");
 const myTextArea = document.getElementById("code");
 const myCodeMirror = CodeMirror.fromTextArea(myTextArea, {
-    mode: "x-shader/x-fragment",
-    theme: "pastel-on-dark",
+  mode: "x-shader/x-fragment",
+  theme: "pastel-on-dark",
     lineNumbers: true,
     indentUnit: 4,
     extraKeys: {
       "Ctrl-Space": "autocomplete",
       "Ctrl-S": function(cm) {
         cancelAnimationFrame(myReq);
-        setTimeout(() => {
-          loadFragmentShader(cm.getValue());
-        }, 500);
+        loadFragmentShader(cm.getValue());
       },
       "Ctrl-Q": function(cm) {
         const wrapper = cm.getWrapperElement();
@@ -28,11 +27,33 @@ const myCodeMirror = CodeMirror.fromTextArea(myTextArea, {
         wrapper.style.opacity = opacity;
         time.style.opacity = opacity;
         teodoran.style.opacity = opacity;
+      },
+      "Alt-Down": function(cm) {
+        var slide = nextSlide();
+        cm.setValue(slide);
+        cancelAnimationFrame(myReq);
+        loadFragmentShader(cm.getValue());
+      },
+      "Alt-Up": function(cm) {
+        var slide = prevSlide();
+        cm.setValue(slide);
+        cancelAnimationFrame(myReq);
+        loadFragmentShader(cm.getValue());
       }
     },
-});
+  });
 
-// FIRST AUDIO!
+let slide = -1;
+function nextSlide () {
+  slide++;
+  return slides[Math.abs(slide % slides.length)];
+};
+
+function prevSlide () {
+  slide--;
+  return slides[Math.abs(slide % slides.length)];
+};
+
 const createAudioContext = () => {
   return new (window.AudioContext || window.webkitAudioContext)();
 }
@@ -98,6 +119,8 @@ const initialize = () => {
       getAudioData = bindGetAudioData(mediaStream);
     })
     .catch((err) => {
+      time.className = 'error';
+      teodoran.className = 'error';
       console.log(err.message);
     });
 
@@ -106,7 +129,6 @@ const initialize = () => {
 
 document.addEventListener("click", initialize, false);
 
-//THEN SHADERS!
 const DEFAULT_VS = `
 attribute vec2 position;
 
@@ -116,6 +138,8 @@ void main() {
 
 const canvas = document.getElementById('shader');
 const gl = canvas.getContext('webgl');
+gl.canvas.width = window.innerWidth / quality;
+gl.canvas.height = window.innerHeight / quality;
 
 gl.clearColor(0, 0, 0, 0);
 
@@ -133,6 +157,8 @@ const DEFAULT_FS = myCodeMirror.getValue();
 loadFragmentShader(DEFAULT_FS);
 
 function loadFragmentShader(shader) {
+  time.className = '';
+  teodoran.className = '';
   const shaderCode = 'precision highp float;\n' + shader;
   const fragmentShader = makeShader(gl.FRAGMENT_SHADER, shaderCode);
   const program = makeProgram(vertexShader, fragmentShader);
@@ -141,7 +167,8 @@ function loadFragmentShader(shader) {
   program.position = gl.getAttribLocation(program, 'position');
   gl.enableVertexAttribArray(program.position);
   gl.vertexAttribPointer(program.position, 2, gl.FLOAT, false, 0, 0);
-  gl.viewport(0, 0, canvas.width, canvas.height);
+
+  gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
 
   const state = {
     uFrame: {
@@ -186,6 +213,8 @@ function makeShader(type, string) {
   if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
     const compilationLog = gl.getShaderInfoLog(shader);
     gl.deleteShader(shader);
+    time.className = 'error';
+    teodoran.className = 'error';
     console.warn(compilationLog, '\nin shader:\n', string);
   }
 
@@ -201,6 +230,8 @@ function makeProgram(...shaders) {
 
   if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
     const linkLog = gl.getProgramInfoLog(this.program);
+    time.className = 'error';
+    teodoran.className = 'error';
     console.warn(linkLog);
   }
 
@@ -244,3 +275,9 @@ function updateTime() {
 
 updateTime();
 setInterval(updateTime, 1000);
+
+document.addEventListener("keydown", function(e) {
+  if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
+    e.preventDefault();
+  }
+}, false);
