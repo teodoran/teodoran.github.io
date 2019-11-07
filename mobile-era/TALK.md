@@ -14,6 +14,9 @@ Links
 * https://soundcloud.com/volcore/reminicent
 * https://soundcloud.com/volcore/arp
 * https://soundcloud.com/volcore/resumption
+* https://soundcloud.com/volcore/prefix
+* https://soundcloud.com/volcore/featherless
+* https://soundcloud.com/volcore/formless
 
 ### Talk:
 * https://teodoran.github.io/mobile-era/

@@ -1,12 +1,27 @@
 // http://www.messletters.com/en/big-text/ style "small" og "standard"
 var slides =
 [`/*
-The Quest for Good Graphics
----------------------------
+ _____   _               ___                      _        __
+|_   _| | |_    ___     / _ \\   _  _   ___   ___ | |_     / _|  ___   _ _
+  | |   | ' \\  / -_)   | (_) | | || | / -_) (_-< |  _|   |  _| / _ \\ | '_|
+  |_|   |_||_| \\___|    \\__\\_\\  \\_,_| \\___| /__/  \\__|   |_|   \\___/ |_|
+
+   ___                  _      ___                       _      _
+  / __|  ___   ___   __| |    / __|  _ _   __ _   _ __  | |_   (_)  __   ___
+ | (_ | / _ \\ / _ \\ / _\` |   | (_ | | '_| / _\` | | '_ \\ | ' \\  | | / _| (_-<
+  \\___| \\___/ \\___/ \\__,_|    \\___| |_|   \\__,_| | .__/ |_||_| |_| \\__| /__/
+                                                 |_|
+
 * How did we end up with GPU's and stuff?
 * Maybe say something about concurrency?
 * Something about OpenGL and how we ended up with WebGL?
 * (What version of OpenGL is supported by WebGL?)
+
+
+
+
+
+
 
 */
 
@@ -15,12 +30,25 @@ void main()
     gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
 }
 `,`/*
+ ___   _                _                    ___
+/ __| | |_    __ _   __| |  ___   _ _   ___ |__ \\
+\\__ \\ | ' \\  / _\` | / _\` | / -_) | '_| (_-<   /_/
+|___/ |_||_| \\__,_| \\__,_| \\___| |_|   /__/  (_)
+
+
 What's a Fragmet Shader?
 ------------------------
 * Part of the rendering pipeline responsible for calculating the color of individual pixels
 * "A function returning a color for every pixel"
 
 TODO: At some point introduce the thing we're writing shaders in.
+
+
+
+
+
+
+
 
 */
 
@@ -107,7 +135,47 @@ void main()
     float alpha = 1.0;
     gl_FragColor = vec4(red, green, blue, alpha);
 }
+`,`/*
 
+,-.-.     |    o              |    |                  o         |
+| | |,---.|__/ .,---.,---.    |--- |---.,---.    ,---...  ,,---.|    ,---.
+| | |,---||  \\ ||   ||   |    |    |   ||---'    |   || >< |---'|    \`---.
+\` ' '\`---^\`   \`\`\`   '\`---|    \`---'\`   '\`---'    |---'\`'  \`\`---'\`---'\`---'
+                     \`---'                       |
+
+        '########:::::'###::::'##::: ##::'######::'########:'####:
+         ##.... ##:::'## ##::: ###:: ##:'##... ##: ##.....:: ####:
+         ##:::: ##::'##:. ##:: ####: ##: ##:::..:: ##::::::: ####:
+         ##:::: ##:'##:::. ##: ## ## ##: ##::::::: ######:::: ##::
+         ##:::: ##: #########: ##. ####: ##::::::: ##...:::::..:::
+         ##:::: ##: ##.... ##: ##:. ###: ##::: ##: ##:::::::'####:
+         ########:: ##:::: ##: ##::. ##:. ######:: ########: ####:
+        ........:::..:::::..::..::::..:::......:::........::....::
+
+
+
+
+
+*/
+uniform sampler2D u_music;
+uniform int u_frame;
+uniform vec2 u_resolution;
+
+float music(vec2 position)
+{
+    return texture2D(u_music, position).w;
+}
+
+void main()
+{
+    vec2 pos = gl_FragCoord.xy / u_resolution.xy;
+
+    float red = pos.x * abs(sin(float(u_frame) / 60.0));
+    float green = pos.y * abs(cos(float(u_frame) / 80.0));
+    float blue = pow(pos.x, 2.0) + pow(pos.y, 2.0) * abs(sin(float(u_frame) / 30.0));
+    float alpha = 1.0;
+    gl_FragColor = vec4(red, green, blue, alpha);
+}
 `,`/*
 Making the pixels dance
 -----------------------
@@ -135,12 +203,27 @@ void main()
     gl_FragColor = vec4(red, green, blue, alpha);
 }
 `,`/*
-Check out
----------
+______ _____         ______          ______
+___  / ___(_)_______ ___  /_____________  /
+__  /  __  / __  __ \\__  //_/__  ___/__  /
+_  /____  /  _  / / /_  ,<   _(__  )  /_/
+/_____//_/   /_/ /_/ /_/|_|  /____/  (_)
+
+
 * Slides: teodoran.github.io/mobile-era
 * The Book of Shaders: thebookofshaders.com
 * MDN WebGL tutorial: developer.mozilla.org/docs/Web/API/WebGL_API/Tutorial
 * Shadertoy: shadertoy.com
+
+
+
+
+
+
+
+
+
+
 
 */
 
@@ -178,9 +261,12 @@ void main()
   |/__\\||/__\\||/__\\||/__\\||/__\\||/__\\||/__\\||/__\\||/__\\||/__\\|
 
                                          Thanks for listening!
+
+  Final shader by @evvvvil. Check him out! (shadertoy.com/view/wssXWl)
+
 */
 
-// Shader borrowed from: https://www.shadertoy.com/view/wssXWl
+// Shader borrowed from: shadertoy.com/view/wssXWl
 uniform int u_frame;
 uniform vec2 u_resolution;
 
@@ -259,15 +345,18 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
     tt=mod(iTime(),100.);
   	bb=0.5+clamp(sin(tt),-0.5,0.5);
     vec3 ro=vec3(cos(tt*0.5)*15.,sin(tt*0.5)*15.,-20),
-    cw=normalize(vec3(0)-ro),cu=normalize(cross(cw,vec3(0,1,0))),cv=normalize(cross(cu,cw)),
+    cw=normalize(vec3(0)-ro),
+        cu=normalize(cross(cw,vec3(0,1,0))),
+            cv=normalize(cross(cu,cw)),
     rd=mat3(cu,cv,cw)*normalize(vec3(uv,.5)),
     co,fo,ld=normalize(vec3(0,0.5,-0.5));
     co=fo=vec3(.04)*(1.-(length(uv)-.2));
     sc=tr(ro,rd);t=sc.x;
 
     if(t>0.){
-
-        vec3 po=ro+rd*t,no=normalize(e.xyy*mp(po+e.xyy).x+e.yyx*mp(po+e.yyx).x+e.yxy*mp(po+e.yxy).x+e.xxx*mp(po+e.xxx).x),
+        vec3 po=ro+rd*t,no=normalize(
+            e.xyy*mp(po+e.xyy).x+e.yyx*mp(po+e.yyx).x+e.yxy
+            *mp(po+e.yxy).x+e.xxx*mp(po+e.xxx).x),
 
         al=vec3(1,0.05,0);
         float dif=max(0.,dot(no,ld)),
@@ -277,7 +366,12 @@ void mainImage( out vec4 fragColor, in vec2 fragCoord )
 
         if(sc.y<5.) al=vec3(0);
         if(sc.y>5.) al=vec3(1);
-        if(sc.y>6.) {al=vec3(0.1,0.5,0.9);spo=exp(1.+3.*noise(bp/vec3(.1,.2,.4))); no*=(1.+.6*ceil(cos(bp*4.)));no=normalize(no);}
+        if(sc.y>6.) {
+            al=vec3(0.1,0.5,0.9);
+            spo=exp(1.+3.*noise(bp/vec3(.1,.2,.4)));
+            no*=(1.+.6*ceil(cos(bp*4.)));
+            no=normalize(no);
+        }
         if(sc.y>7.) {al=vec3(0);}
         if(sc.y>8.) {al=vec3(1);}
 
