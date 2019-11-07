@@ -12,10 +12,13 @@ var slides =
   \\___| \\___/ \\___/ \\__,_|    \\___| |_|   \\__,_| | .__/ |_||_| |_| \\__| /__/
                                                  |_|
 
-* How did we end up with GPU's and stuff?
-* Maybe say something about concurrency?
-* Something about OpenGL and how we ended up with WebGL?
-* (What version of OpenGL is supported by WebGL?)
+        * The obsession with graphics
+        * Good graphics is hard work!
+        * OpenGL (Open Graphics Library)
+            - 1992: Cross-platform API
+        * WebGL (Web Graphics Library)
+            - 2011: Web specification based on OpenGL (ES 2.0/3.0)
+            - Vladimir Vukićević @ Mozilla <3
 
 
 
@@ -30,19 +33,21 @@ void main()
     gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
 }
 `,`/*
- ___   _                _                    ___
-/ __| | |_    __ _   __| |  ___   _ _   ___ |__ \\
-\\__ \\ | ' \\  / _\` | / _\` | / -_) | '_| (_-<   /_/
-|___/ |_||_| \\__,_| \\__,_| \\___| |_|   /__/  (_)
+ ___                                     _
+| __|  _ _   __ _   __ _   _ __    ___  | |_
+| _|  | '_| / _\` | / _\` | | '  \\  / -_) |  _|
+|_|   |_|   \\__,_| \\__, | |_|_|_| \\___|  \\__|
+                   |___/
+.|'''|  '||                 ||\`
+||       ||                 ||
+\`|'''|,  ||''|,  '''|.  .|''||  .|''|, '||''| (''''
+ .   ||  ||  || .|''||  ||  ||  ||..||  ||     \`'')
+ |...|' .||  || \`|..||. \`|..||. \`|...  .||.   \`...'
 
 
-What's a Fragmet Shader?
-------------------------
-* Part of the rendering pipeline responsible for calculating the color of individual pixels
-* "A function returning a color for every pixel"
-
-TODO: At some point introduce the thing we're writing shaders in.
-
+        * There's more in the rendering pipeline
+        * What's a Fragmet Shader?
+        * f(x, y, secret_sauce) => color(r, g, b, α)
 
 
 
@@ -56,18 +61,9 @@ void main()
 {
     gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
 }
-`,`/*
-A color for every pixel
------------------------
-* GLSL: OpenGL Shading Language
-* Cannot print stuff other than the color to screen. "Visual debugging".
-* Its a bit like C void main() {}
-* gl_FragColor, thats the output. It's a vector with 4 values.
-* Color-values go from 0-1.
-* Types an so on. i.e. 1 is not ok but 1.0 is.
-* Vectors, and basic vector manipulation:
-
-*/
+`,`/////////////////////////////
+// A color for every pixel //
+/////////////////////////////
 
 void main()
 {
@@ -77,13 +73,9 @@ void main()
     float alpha = 1.0;
     gl_FragColor = vec4(red, green, blue, alpha);
 }
-`,`/*
-Different colors for every pixel
---------------------------------
-* Position of each pixel.
-* Swizzling gl_FragCoord.xyxy is a vec4
-
-*/
+`,`//////////////////////////////////////
+// Different colors for every pixel //
+//////////////////////////////////////
 
 void main()
 {
@@ -95,12 +87,9 @@ void main()
     float alpha = 1.0;
     gl_FragColor = vec4(red, green, blue, alpha);
 }
-`,`/*
-Uniforms!
----------
-* u_resolution
-
-*/
+`,`////////////////////////////////
+// Uniforms: The secret sauce //
+////////////////////////////////
 
 uniform vec2 u_resolution;
 
@@ -114,16 +103,12 @@ void main()
     float alpha = 1.0;
     gl_FragColor = vec4(red, green, blue, alpha);
 }
-`,`/*
-Sine and time I
----------------
-* u_frame and cating with float().
-* sin and cos.
+`,`///////////////////
+// Sine and time //
+///////////////////
 
-*/
-
-uniform int u_frame;
 uniform vec2 u_resolution;
+uniform int u_frame;
 
 void main()
 {
@@ -156,10 +141,35 @@ void main()
 
 
 
+
+
 */
-uniform sampler2D u_music;
-uniform int u_frame;
 uniform vec2 u_resolution;
+uniform int u_frame;
+uniform sampler2D u_music;
+
+float music(vec2 position)
+{
+    return texture2D(u_music, position).w;
+}
+
+void main()
+{
+    vec2 pos = gl_FragCoord.xy / u_resolution.xy;
+
+    float red = pos.x * abs(sin(float(u_frame) / 60.0));
+    float green = pos.y * abs(cos(float(u_frame) / 80.0));
+    float blue = pow(pos.x, 2.0) + pow(pos.y, 2.0) * abs(sin(float(u_frame) / 30.0));
+    float alpha = 1.0;
+    gl_FragColor = vec4(red, green, blue, alpha);
+}
+`,`/////////////////////////////
+// Making the pixels dance //
+/////////////////////////////
+
+uniform vec2 u_resolution;
+uniform int u_frame;
+uniform sampler2D u_music;
 
 float music(vec2 position)
 {
@@ -177,47 +187,17 @@ void main()
     gl_FragColor = vec4(red, green, blue, alpha);
 }
 `,`/*
-Making the pixels dance
------------------------
-* u_music and data from WebAudio.
-* getByteFrequencyData
-
-*/
-uniform sampler2D u_music;
-uniform int u_frame;
-uniform vec2 u_resolution;
-
-float music(vec2 position)
-{
-    return texture2D(u_music, position).w;
-}
-
-void main()
-{
-    vec2 pos = gl_FragCoord.xy / u_resolution.xy;
-
-    float red = pos.x * abs(sin(float(u_frame) / 60.0));
-    float green = pos.y * abs(cos(float(u_frame) / 80.0));
-    float blue = pow(pos.x, 2.0) + pow(pos.y, 2.0) * abs(sin(float(u_frame) / 30.0));
-    float alpha = 1.0;
-    gl_FragColor = vec4(red, green, blue, alpha);
-}
-`,`/*
-______ _____         ______          ______
-___  / ___(_)_______ ___  /_____________  /
-__  /  __  / __  __ \\__  //_/__  ___/__  /
-_  /____  /  _  / / /_  ,<   _(__  )  /_/
-/_____//_/   /_/ /_/ /_/|_|  /____/  (_)
+______  ___                            _____         ________       ______
+___   |/  /______ _____________        ___(_)_______ ___  __/______ ___  /
+__  /|_/ / _  __ \\__  ___/_  _ \\       __  / __  __ \\__  /_  _  __ \\__  /
+_  /  / /  / /_/ /_  /    /  __/       _  /  _  / / /_  __/  / /_/ / /_/
+/_/  /_/   \\____/ /_/     \\___/        /_/   /_/ /_/ /_/     \\____/ (_)
 
 
-* Slides: teodoran.github.io/mobile-era
-* The Book of Shaders: thebookofshaders.com
-* MDN WebGL tutorial: developer.mozilla.org/docs/Web/API/WebGL_API/Tutorial
-* Shadertoy: shadertoy.com
-
-
-
-
+        * Slides: teodoran.github.io/mobile-era
+        * The Book of Shaders: thebookofshaders.com
+        * MDN WebGL tutorial: developer.mozilla.org/docs/Web/API/WebGL_API/Tutorial
+        * Shadertoy: shadertoy.com
 
 
 
@@ -227,9 +207,9 @@ _  /____  /  _  / / /_  ,<   _(__  )  /_/
 
 */
 
-uniform sampler2D u_music;
-uniform int u_frame;
 uniform vec2 u_resolution;
+uniform int u_frame;
+uniform sampler2D u_music;
 
 float music(vec2 position)
 {
@@ -263,6 +243,12 @@ void main()
                                          Thanks for listening!
 
   Final shader by @evvvvil. Check him out! (shadertoy.com/view/wssXWl)
+
+
+
+
+
+
 
 */
 

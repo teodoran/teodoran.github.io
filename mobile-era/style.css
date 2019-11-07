@@ -7,6 +7,10 @@ body {
   font-family: sans-serif;
 }
 
+::-webkit-scrollbar {
+    display: none;
+}
+
 shader-doodle {
   width: 100%;
   height: 100%;
