@@ -1,2 +1,2 @@
 # teodoran.github.io
-My github.io page
+My personal github.io page
