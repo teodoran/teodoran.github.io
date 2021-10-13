@@ -72,7 +72,7 @@ void main()
 
 
         * There's more in the rendering pipeline
-        * What's a Fragmet Shader?
+        * What's a Fragment Shader?
         * f(x, y, secret_sauce) => color(r, g, b, α)
 
 
