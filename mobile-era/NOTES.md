@@ -1,3 +1,38 @@
+How to set up an audio loopback
+-------------------------------
+Fragmatic records audio from the computer audio input, so in order to drive the vizualisations from the audio playing on your computer,
+you'll need to set up an audio loopback from your sound output to the input. This can be done in a number of different ways, depending on your OS.
+
+### Ubuntu
+* Install pavucontrol (PulseAudio Volume Control) using apt-get or the Ubuntu Software Center.
+
+```shell
+$> sudo apt-get install pavucontrol
+```
+
+* Open PulseAudio Volume Control. It should be in the applications menu under Sound and Video.
+
+```shell
+$> pavucontrol
+```
+
+* Open Sound Recorder and start recording. Playing any sound at this point would be helpful, as your level indicator should react once you have finished.
+
+* Go to the "Recording" tab in the PulseAudio Volume Control window.
+* Make sure that "Applications" is selected in the drop down menu on the "Recording" tab.
+* Choose "Monitor of Internal Audio Analog Atereo" from the "Record Stream from" menu in the Sound Recorder entry of the application list.
+
+Something from λ
+----------------
+
+- [Wierd science](https://youtu.be/gmMPvUwyMxA?t=689)
+- [Very live shading](https://youtu.be/u517aj_JzVg?t=610)
+- [Bonzomatic](https://github.com/Gargaj/Bonzomatic)
+- [Book of shaders](https://thebookofshaders.com/11/)
+- [Actors](https://github.com/heidisu/actor-invaders)
+- [Hydra](https://github.com/ojack/hydra-synth)
+
+
 Done: 13:30
 Someone to take a picture?
 
@@ -144,4 +179,82 @@ gl_FragColor = vec4(red, green, blue, alpha);
 Also a good option!
 ```
 float red = pos.x * abs(sin(float(u_frame) / 60.0)) * (1.0 / music(pos));
+```
+
+Some other stuff:
+```
+uniform vec2 u_resolution;
+uniform int u_frame;
+uniform sampler2D u_music;
+
+float music(vec2 position)
+{
+    return texture2D(u_music, position).w;
+}
+
+vec2 split(vec2 pos, float n)
+{
+    return mod(pos * n, 1.0);
+}
+
+vec2 invert(vec2 pos)
+{
+	return abs(pos - 1.0);
+}
+
+vec2 mirror(vec2 pos)
+{
+	return abs(mod((2.0 * pos) - 1.0, 2.0) - 1.0);
+}
+
+void main()
+{
+    vec2 pos = mirror(gl_FragCoord.xy / u_resolution.xy);
+
+    float red = pos.x * abs(sin(float(u_frame) / 60.0)) * music(pos);
+    float green = pos.y * abs(cos(float(u_frame) / 80.0)) * music(pos.yx);
+    float blue = pow(pos.x, 2.0) + pow(pos.y, 2.0) * abs(sin(float(u_frame) / 120.0));
+    float alpha = 1.0;
+    gl_FragColor = vec4(red, green, blue, alpha);
+}
+```
+
+More wierdness:
+(Justice Genesis / Logistics 2999)
+```
+uniform vec2 u_resolution;
+uniform int u_frame;
+uniform sampler2D u_music;
+
+float music(vec2 position)
+{
+    return texture2D(u_music, position).w;
+}
+
+vec2 split(vec2 pos, float n)
+{
+    return mod(pos * n, 1.0);
+}
+
+vec2 invert(vec2 pos)
+{
+	return abs(pos - 1.0);
+}
+
+vec2 mirror(vec2 pos, float n)
+{
+	return abs(mod((n * pos) - (n / 2.0), n) - (n / 2.0));
+}
+
+void main()
+{
+    vec2 st = mirror(gl_FragCoord.xy / u_resolution.xy, 2.0);
+    vec2 pos = mirror(gl_FragCoord.xy / u_resolution.xy, st.x * 6.0);
+
+    float red = pos.x * abs(sin(float(u_frame) / 60.0)) * music(pos);
+    float green = pos.y * abs(cos(float(u_frame) / 80.0)) * music(pos.yx);
+    float blue = pow(pos.x, 2.0) + pow(pos.y, 2.0) * abs(sin(float(u_frame) / 120.0));
+    float alpha = 1.0;
+    gl_FragColor = vec4(red, green, blue, alpha);
+}
 ```

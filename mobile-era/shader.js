@@ -10,11 +10,11 @@ const myCodeMirror = CodeMirror.fromTextArea(myTextArea, {
     indentUnit: 4,
     extraKeys: {
       "Ctrl-Space": "autocomplete",
-      "Ctrl-S": function(cm) {
+      "Alt-S": function(cm) {
         cancelAnimationFrame(myReq);
         loadFragmentShader(cm.getValue());
       },
-      "Ctrl-Q": function(cm) {
+      "Alt-Q": function(cm) {
         const wrapper = cm.getWrapperElement();
         const isHidden = wrapper.style.animationName === 'fadeout';
 
@@ -28,13 +28,13 @@ const myCodeMirror = CodeMirror.fromTextArea(myTextArea, {
         time.style.opacity = opacity;
         teodoran.style.opacity = opacity;
       },
-      "Alt-Down": function(cm) {
+      "Alt-Right": function(cm) {
         var slide = nextSlide();
         cm.setValue(slide);
         cancelAnimationFrame(myReq);
         loadFragmentShader(cm.getValue());
       },
-      "Alt-Up": function(cm) {
+      "Alt-Left": function(cm) {
         var slide = prevSlide();
         cm.setValue(slide);
         cancelAnimationFrame(myReq);

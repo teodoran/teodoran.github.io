@@ -72,7 +72,7 @@ void main()
 
 
         * There's more in the rendering pipeline
-        * What's a Fragmet Shader?
+        * What's a Fragment Shader?
         * f(x, y, secret_sauce) => color(r, g, b, α)
 
 
@@ -174,6 +174,16 @@ uniform vec2 u_resolution;
 uniform int u_frame;
 uniform sampler2D u_music;
 
+float bounce(int speed)
+{
+    return abs(sin(float(u_frame) / float(speed)));
+}
+
+float flutter(int speed)
+{
+    return (sin(float(u_frame) / float(speed)) / 2.0) + 0.5;
+}
+
 float music(vec2 position)
 {
     return texture2D(u_music, position).w;
@@ -183,9 +193,9 @@ void main()
 {
     vec2 pos = gl_FragCoord.xy / u_resolution.xy;
 
-    float red = pos.x * abs(sin(float(u_frame) / 60.0));
-    float green = pos.y * abs(cos(float(u_frame) / 80.0));
-    float blue = pow(pos.x, 2.0) + pow(pos.y, 2.0) * abs(sin(float(u_frame) / 30.0));
+    float red = pos.x * bounce(60);
+    float green = pos.y * bounce(80);
+    float blue = pow(pos.x, 2.0) + pow(pos.y, 2.0) * bounce(30);
     float alpha = 1.0;
     gl_FragColor = vec4(red, green, blue, alpha);
 }
@@ -197,6 +207,16 @@ uniform vec2 u_resolution;
 uniform int u_frame;
 uniform sampler2D u_music;
 
+float bounce(int speed)
+{
+    return abs(sin(float(u_frame) / float(speed)));
+}
+
+float flutter(int speed)
+{
+    return (sin(float(u_frame) / float(speed)) / 2.0) + 0.5;
+}
+
 float music(vec2 position)
 {
     return texture2D(u_music, position).w;
@@ -206,9 +226,250 @@ void main()
 {
     vec2 pos = gl_FragCoord.xy / u_resolution.xy;
 
-    float red = pos.x * abs(sin(float(u_frame) / 60.0));
-    float green = pos.y * abs(cos(float(u_frame) / 80.0));
-    float blue = pow(pos.x, 2.0) + pow(pos.y, 2.0) * abs(sin(float(u_frame) / 30.0));
+    float red = pos.x * bounce(60);
+    float green = pos.y * bounce(80);
+    float blue = pow(pos.x, 2.0) + pow(pos.y, 2.0) * bounce(30);
+    float alpha = 1.0;
+    gl_FragColor = vec4(red, green, blue, alpha);
+}
+`,`/*
+
+____            _   _   _           ___                                 _
+/ ___|   _ __   | | (_) | |_        |_ _|  _ __   __   __   ___   _ __  | |_
+\\___ \\  | '_ \\  | | | | | __|        | |  | '_ \\  \\ \\ / /  / _ \\ | '__| | __|
+ ___) | | |_) | | | | | | |_   _     | |  | | | |  \\ V /  |  __/ | |    | |_
+|____/  | .__/  |_| |_|  \\__| ( )   |___| |_| |_|   \\_/    \\___| |_|     \\__|
+        |_|                   |/
+
+        __  __   _
+        |  \\/  | (_)  _ __   _ __    ___    _ __
+        | |\\/| | | | | '__| | '__|  / _ \\  | '__|
+        | |  | | | | | |    | |    | (_) | | |
+        |_|  |_| |_| |_|    |_|     \\___/  |_|
+
+
+
+
+
+
+
+
+*/
+
+uniform vec2 u_resolution;
+uniform int u_frame;
+uniform sampler2D u_music;
+
+float bounce(int speed)
+{
+    return abs(sin(float(u_frame) / float(speed)));
+}
+
+float flutter(int speed)
+{
+    return (sin(float(u_frame) / float(speed)) / 2.0) + 0.5;
+}
+
+float music(vec2 position)
+{
+    return texture2D(u_music, position).w;
+}
+
+vec2 invert(vec2 pos)
+{
+	return abs(pos - 1.0);
+}
+
+void main()
+{
+    vec2 npos = gl_FragCoord.xy / u_resolution.xy;
+    vec2 pos = npos;
+
+    float red = pos.x * bounce(60) * music(pos) * 1.5;
+    float green = pos.y * bounce(80) * music(pos.yx) * 1.5;
+    float blue = pow(pos.x, 2.0) + pow(pos.y, 2.0) * bounce(30);
+    float alpha = 1.0;
+    gl_FragColor = vec4(red, green, blue, alpha);
+}
+`,`////////////
+// Invert //
+////////////
+
+uniform vec2 u_resolution;
+uniform int u_frame;
+uniform sampler2D u_music;
+
+float bounce(int speed)
+{
+    return abs(sin(float(u_frame) / float(speed)));
+}
+
+float flutter(int speed)
+{
+    return (sin(float(u_frame) / float(speed)) / 2.0) + 0.5;
+}
+
+float music(vec2 position)
+{
+    return texture2D(u_music, position).w;
+}
+
+vec2 invert(vec2 pos)
+{
+	return abs(pos - 1.0);
+}
+
+void main()
+{
+    vec2 npos = gl_FragCoord.xy / u_resolution.xy;
+    vec2 pos = npos;
+
+    float red = pos.x * bounce(60) * music(pos) * 1.5;
+    float green = pos.y * bounce(80) * music(pos.yx) * 1.5;
+    float blue = pow(pos.x, 2.0) + pow(pos.y, 2.0) * bounce(30);
+    float alpha = 1.0;
+    gl_FragColor = vec4(red, green, blue, alpha);
+}
+`,`///////////
+// Split //
+///////////
+
+uniform vec2 u_resolution;
+uniform int u_frame;
+uniform sampler2D u_music;
+
+float bounce(int speed)
+{
+    return abs(sin(float(u_frame) / float(speed)));
+}
+
+float flutter(int speed)
+{
+    return (sin(float(u_frame) / float(speed)) / 2.0) + 0.5;
+}
+
+float music(vec2 position)
+{
+    return texture2D(u_music, position).w;
+}
+
+vec2 invert(vec2 pos)
+{
+	return abs(pos - 1.0);
+}
+
+vec2 split(vec2 pos, float n)
+{
+    return mod(pos * n, 1.0);
+}
+
+void main()
+{
+    vec2 npos = gl_FragCoord.xy / u_resolution.xy;
+    vec2 pos = npos;
+
+    float red = pos.x * bounce(60) * music(pos) * 1.5;
+    float green = pos.y * bounce(80) * music(pos.yx) * 1.5;
+    float blue = pow(pos.x, 2.0) + pow(pos.y, 2.0) * bounce(30);
+    float alpha = 1.0;
+    gl_FragColor = vec4(red, green, blue, alpha);
+}
+`,`////////////
+// Mirror //
+////////////
+
+uniform vec2 u_resolution;
+uniform int u_frame;
+uniform sampler2D u_music;
+
+float bounce(int speed)
+{
+    return abs(sin(float(u_frame) / float(speed)));
+}
+
+float flutter(int speed)
+{
+    return (sin(float(u_frame) / float(speed)) / 2.0) + 0.5;
+}
+
+float music(vec2 position)
+{
+    return texture2D(u_music, position).w;
+}
+
+vec2 invert(vec2 pos)
+{
+	return abs(pos - 1.0);
+}
+
+vec2 split(vec2 pos, float n)
+{
+    return mod(pos * n, 1.0);
+}
+
+vec2 mirror(vec2 pos)
+{
+    return invert(pos * 2.0);
+}
+
+void main()
+{
+    vec2 npos = gl_FragCoord.xy / u_resolution.xy;
+    vec2 pos = npos;
+
+    float red = pos.x * bounce(60) * music(pos) * 1.5;
+    float green = pos.y * bounce(80) * music(pos.yx) * 1.5;
+    float blue = pow(pos.x, 2.0) + pow(pos.y, 2.0) * bounce(30);
+    float alpha = 1.0;
+    gl_FragColor = vec4(red, green, blue, alpha);
+}
+`,`/////////////////////
+// More positions! //
+/////////////////////
+
+uniform vec2 u_resolution;
+uniform int u_frame;
+uniform sampler2D u_music;
+
+float bounce(int speed)
+{
+    return abs(sin(float(u_frame) / float(speed)));
+}
+
+float flutter(int speed)
+{
+    return (sin(float(u_frame) / float(speed)) / 2.0) + 0.5;
+}
+
+float music(vec2 position)
+{
+    return texture2D(u_music, position).w;
+}
+
+vec2 invert(vec2 pos)
+{
+	return abs(pos - 1.0);
+}
+
+vec2 split(vec2 pos, float n)
+{
+    return mod(pos * n, 1.0);
+}
+
+vec2 mirror(vec2 pos)
+{
+    return invert(pos * 2.0);
+}
+
+void main()
+{
+    vec2 npos = gl_FragCoord.xy / u_resolution.xy;
+    vec2 mpos = mirror(npos);
+    vec2 pos = mpos;
+
+    float red = pos.x * bounce(60) * music(pos) * 1.5;
+    float green = pos.y * bounce(80) * music(pos.yx) * 1.5;
+    float blue = pow(pos.x, 2.0) + pow(pos.y, 2.0) * bounce(30);
     float alpha = 1.0;
     gl_FragColor = vec4(red, green, blue, alpha);
 }
@@ -237,18 +498,43 @@ uniform vec2 u_resolution;
 uniform int u_frame;
 uniform sampler2D u_music;
 
+float bounce(int speed)
+{
+    return abs(sin(float(u_frame) / float(speed)));
+}
+
+float flutter(int speed)
+{
+    return (sin(float(u_frame) / float(speed)) / 2.0) + 0.5;
+}
+
 float music(vec2 position)
 {
     return texture2D(u_music, position).w;
 }
 
+vec2 invert(vec2 pos)
+{
+	return abs(pos - 1.0);
+}
+
+vec2 split(vec2 pos, float n)
+{
+    return mod(pos * n, 1.0);
+}
+
+vec2 mirror(vec2 pos)
+{
+    return invert(pos * 2.0);
+}
+
 void main()
 {
-    vec2 pos = gl_FragCoord.xy / u_resolution.xy;
+    vec2 pos = mirror(gl_FragCoord.xy / u_resolution.xy);
 
-    float red = pos.x * abs(sin(float(u_frame) / 60.0)) * (1.0 / music(pos));
+    float red = pos.x * bounce(60) * (1.0 / music(pos));
     float green = pos.y * abs(cos(float(u_frame) / 80.0)) * music(pos.yx);
-    float blue = pow(pos.x, 2.0) + pow(pos.y, 2.0) * abs(sin(float(u_frame) / 120.0));
+    float blue = pow(pos.x, 2.0) + pow(pos.y, 2.0) * bounce(120);
     float alpha = 1.0;
     gl_FragColor = vec4(red, green, blue, alpha);
 }
